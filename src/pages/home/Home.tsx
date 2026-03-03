@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { BsCartPlus } from 'react-icons/bs'
 
 import { api } from  '../../services/api'
+import { CartContext } from '../../contexts/CartContext'
+import toast from 'react-hot-toast'
 
-interface ProductProps {
+export interface ProductProps {
     id: number;
     title: string;
     description: string;
@@ -12,7 +14,7 @@ interface ProductProps {
 }
 
 export function Home(){
-
+    const { addItemCart } = useContext(CartContext)
     const [products, setProducts] = useState<ProductProps[]>([])
     useEffect(() => {
         async function getProducts(){
@@ -22,6 +24,18 @@ export function Home(){
 
         getProducts();
     }, [])
+
+    function handleAddCartItem(product: ProductProps){
+        toast.success("Produto adicionado ao carrinho!", {
+            style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+            }
+        })
+        addItemCart(product)
+        
+    }
 
     return (
         <div>
@@ -46,7 +60,7 @@ export function Home(){
                                     currency: 'BRL'
                                 })}
                             </strong>
-                            <button className="bg-zinc-900 p-1 rounded">
+                            <button className="bg-zinc-900 p-1 rounded" onClick={ () => handleAddCartItem(product)}>
                                 <BsCartPlus size={28} color="#fff"/>
                             </button>
                         </div>
