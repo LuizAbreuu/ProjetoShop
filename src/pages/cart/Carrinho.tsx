@@ -35,11 +35,11 @@ export function Carrinho(){
                 </strong>
 
                 <div className="flex items-center justify-center gap-3">
-                    <button onClick={() => removeItemCart(item)} className="bg-slate-500 px-2 rounded text-white font-medium flex items-center justify-center">
+                    <button onClick={() => removeItemCart(item)} className="bg-slate-500 px-2 rounded text-white font-medium flex items-center justify-center cursor-pointer">
                         -
                     </button>
                     {item.amount}
-                    <button onClick={() => addItemCart(item)} className="bg-slate-500 px-2 rounded text-white font-medium flex items-center justify-center">
+                    <button onClick={() => addItemCart(item)} className="bg-slate-500 px-2 rounded text-white font-medium flex items-center justify-center cursor-pointer">
                         +
                     </button>
             
