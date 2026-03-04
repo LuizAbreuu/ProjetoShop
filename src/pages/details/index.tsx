@@ -11,17 +11,32 @@ export function Details() {
     const [product, setProduct] = useState<ProductProps>();
     const { addItemCart } = useContext(CartContext);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function getProduct() {
-            const response = await api.get(`/products/${id}`);
-
-            setProduct(response.data);
-
+            try {
+                const response = await api.get(`/products/${id}`);
+                setProduct(response.data);
+            } catch (error) {
+                toast.error("Erro ao carregar o produto, tente novamente!", {
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    }
+                })
+            } finally {
+                setLoading(false)
+            }
         }
 
         getProduct();
     }, [id]);
+
+    if(loading){
+        return <div className="text-center mt-10">Carregando...</div>
+    }
 
     function handleAddItem(product: ProductProps) {
         toast.success("Produto adicionado ao carrinho!", {

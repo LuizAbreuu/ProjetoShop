@@ -28,7 +28,7 @@ export function Carrinho(){
                 />
 
                 <strong>
-                    preço: R$ {item.price.toLocaleString('pt-BR', {
+                    preço: {item.price.toLocaleString('pt-BR', {
                         style: 'currency',
                         currency: 'BRL'
                     })}

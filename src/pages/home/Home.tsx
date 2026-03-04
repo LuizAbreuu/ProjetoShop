@@ -17,14 +17,34 @@ export interface ProductProps {
 export function Home(){
     const { addItemCart } = useContext(CartContext)
     const [products, setProducts] = useState<ProductProps[]>([])
+    const [loading, setLoading] = useState(true)
+
+
     useEffect(() => {
         async function getProducts(){
-            const response = await api.get('/products')
-            setProducts(response.data)
+            try {
+                const response = await api.get('/products')
+                setProducts(response.data)
+            } 
+            catch (error) {
+                toast.error("Erro ao carregar os produtos, tente novamente!", {
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                    }
+                })
+            } finally {
+                setLoading(false)
+            }
         }
 
         getProducts();
     }, [])
+
+    if(loading){ 
+        return  <div className="text-center mt-10">Carregando...</div>
+    }
 
     function handleAddCartItem(product: ProductProps){
         toast.success("Produto adicionado ao carrinho!", {
