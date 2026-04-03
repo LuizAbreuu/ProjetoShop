@@ -61,7 +61,7 @@ Abra em seu navegador o link fornecido pelo Vite (Geralmente `http://localhost:5
 
 ---
 
-## 🔍 Análise de Boas Práticas e Pontos de Melhoria
+ <!-- ## 🔍 Análise de Boas Práticas e Pontos de Melhoria
 
 Abaixo estão as observações feitas através da análise da atual estrutura de código. O projeto em si está muito bem organizado, apresentando componentização clara, uso coerente nos Hooks do React e boa gestão de estado global com a Context API. Porém, existem alguns pontos que podem ser ajustados com o tempo:
 
@@ -88,4 +88,4 @@ Abaixo estão as observações feitas através da análise da atual estrutura de
 **Como melhorar:** É uma boa prática do TypeScript em projetos em Vite adicionar em um arquivo `.d.ts` o módulo de augmentation apontando as variáveis ambientes contidas (`interface ImportMetaEnv`).
 
 ### 6. Loading global e Error Handlings genéricos
-**Como melhorar:** Existem chamadas para carregamentos simples `<div>Carregando...</div>` nas páginas. Criar um componente de `<Spinner />` padronizado seria ideal. E, ao tratar os `catch(error)`, checar o tipo de retorno HTTP (como 500, 404, etc) forneceria um erro mais detalhado do que a atual mensagem de fallback.
+**Como melhorar:** Existem chamadas para carregamentos simples `<div>Carregando...</div>` nas páginas. Criar um componente de `<Spinner />` padronizado seria ideal. E, ao tratar os `catch(error)`, checar o tipo de retorno HTTP (como 500, 404, etc) forneceria um erro mais detalhado do que a atual mensagem de fallback. -->
