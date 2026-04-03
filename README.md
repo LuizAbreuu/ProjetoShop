@@ -1,73 +1,91 @@
-# React + TypeScript + Vite
+# Projeto Shop (E-commerce Simples)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é um projeto front-end de um e-commerce desenvolvido com **React.js**, **TypeScript**, e **Vite**. A aplicação simula uma loja onde os usuários podem visualizar uma lista de produtos, ver os detalhes de um produto específico e adicionar itens a um carrinho de compras, com o valor global sendo atualizado dinamicamente.
 
-Currently, two official plugins are available:
+A aplicação consome uma API simulada (mock) utilizando o `json-server`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🛠️ Tecnologias e Bibliotecas Utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React.js (v19)**: Biblioteca principal para construção das interfaces.
+- **TypeScript**: Adiciona tipagem estática e segurança ao código.
+- **Vite**: Ferramenta de build super-rápida e ambiente de desenvolvimento.
+- **Tailwind CSS**: Framework CSS utility-first para estilização rápida e responsiva.
+- **React Router Dom**: Gerenciamento de rotas e navegação entre a Home, Detalhes e Carrinho.
+- **React Hot Toast**: Biblioteca para exibir notificações (toasts) agradáveis para o usuário.
+- **React Icons**: Utilização fácil de ícones vetoriais.
+- **Axios**: Cliente HTTP para realizar requisições à API.
+- **json-server**: Ferramenta para criar uma Fake REST API de testes.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📂 Estrutura do Projeto
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Abaixo segue a divisão dos principais diretórios inseridos em `src/`:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **components/**: Componentes reutilizáveis da aplicação (Ex: `Header`, `Footer`, `Layout`).
+- **contexts/**: Gerenciamento de estados globais utilizando a Context API. Nele encontra-se o `CartContext.tsx` que gerencia toda a lógica do carrinho (adição, remoção e cálculo de totais).
+- **pages/**: Representam as páginas/rotas da nossa aplicação.
+  - `home/`: Página principal que lista os produtos em alta.
+  - `details/`: Página de detalhes de um produto específico.
+  - `cart/`: Página de visualização dos itens adicionados ao carrinho.
+- **services/**: Configurações e conexões relacionadas com APIs externas. (Onde fica a configuração base do Axios instanciando a `api`).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 🚀 Como Rodar o Projeto
+
+Para rodar este projeto em sua máquina localmente, é necessário executar e manter dois terminais abertos: um para a inicialização da Fake API e outro para o projeto React Front-end.
+
+### Passo 1: Instale as dependências
+Abra seu terminal na raiz do projeto e execute:
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Passo 2: Rodar a API Fake (json-server)
+Você precisará iniciar o servidor mock baseado no arquivo `db.json`. No terminal, rode o seguinte comando:
+```bash
+npx json-server --watch db.json
 ```
+_Por padrão, o json-server roda na porta 3000._
+
+### Passo 3: Rodar o Front-end
+Abra uma nova aba/janela no terminal e inicie a aplicação Vite:
+```bash
+npm run dev
+```
+
+Abra em seu navegador o link fornecido pelo Vite (Geralmente `http://localhost:5173`) e teste a aplicação!
+
+---
+
+## 🔍 Análise de Boas Práticas e Pontos de Melhoria
+
+Abaixo estão as observações feitas através da análise da atual estrutura de código. O projeto em si está muito bem organizado, apresentando componentização clara, uso coerente nos Hooks do React e boa gestão de estado global com a Context API. Porém, existem alguns pontos que podem ser ajustados com o tempo:
+
+### 1. Quebra da Imutabilidade de Estado (`CartContext.tsx`)
+**O que acontece:** Nos métodos `addItemCart` e `removeItemCart`, uma vez que os itens do carrinho são encontrados, o estado do item é diretamente modificado através de chaves do array original (Ex: `let cartList = cart; cartList[itemIndex].amount = ...; setCart(cartList)`).
+**Por que melhorar:** No React, o estado deve ser tratado como completamente _imutável_. Ao referenciar o array via `let cartList = cart`, qualquer modificação em `cartList` será aplicada diretamente na referência de estado principal sem avisar o React.
+**Como melhorar:** Use o método `.map()` já que ele retorna um novo array ou crie um clone explícito `let cartList = [...cart]`. O código antigo que está hoje comentado em formato `.map` seria a solução mais encorajada e segura para re-renderizar adequadamente.
+
+### 2. Duplicação Lógica das Notificações (Toasts)
+**O que acontece:** O código e a customização dos alertas de "Produto adicionado ao carrinho!" usando o `toast` se repete quase que idêntico tanto no arquivo `Home.tsx` quanto no `index.tsx` de Details.
+**Por que melhorar:** A necessidade de manutenção se torna custosa. Se desejar alterar o visual ou mensagem deste alerta de adição de produto, precisará alterar em vários arquivos.
+**Como melhorar:** Envie o disparo padrão do alerta de adição diretamente para centralizar o `toast.success` debaixo da função `addItemCart` dentro do próprio **arquivo de Contexto** (`CartContext.tsx`). Dessa forma sempre que um item for adicionado em qualquer lugar do app, a notificação sairá por lá.
+
+### 3. Acoplamento Lógico do Total a Strings e Interface (`CartContext.tsx`)
+**O que acontece:** O valor numérico e primitivo do total que é somado está sendo convertido para String com máscara monetária (`toLocaleString('pt-BR')`) antes de ser injetado para uso global nos demais componentes. 
+**Como melhorar:** O estado guardado pelo Contexto seria melhor definido com o valor total simplesmente numérico (apenas as contas e lógica). E, na ponta (no visual de `Home.tsx`, `Cart.tsx`), o componente ficaria responsável pela formatação para a moeda local. Isso previne que a exibição de String engesse a possível utilização deste total futuramente no Backend onde precisaria obrigatoriamente estar com tipo *Number*.
+
+### 4. Scripts e Configurações Facilitadoras
+**O que acontece:** Há um comentário no arquivo `services/api.ts` instruindo como rodar a base mock `// json-server --watch db.json`.
+**Como melhorar:** Transforme este comando em um `script` automatizado diretamente no `package.json` de sua aplicação. Por exemplo: `"backend": "json-server --watch db.json -p 3000"`. Assim o desenvolvedor apenas precisará rodar `npm run backend`.
+
+### 5. Tipagem da Variável de Ambiente (`.env`)
+**O que acontece:** É acessado livremente o `import.meta.env.VITE_API_URL` dentro da instância da `api`.
+**Como melhorar:** É uma boa prática do TypeScript em projetos em Vite adicionar em um arquivo `.d.ts` o módulo de augmentation apontando as variáveis ambientes contidas (`interface ImportMetaEnv`).
+
+### 6. Loading global e Error Handlings genéricos
+**Como melhorar:** Existem chamadas para carregamentos simples `<div>Carregando...</div>` nas páginas. Criar um componente de `<Spinner />` padronizado seria ideal. E, ao tratar os `catch(error)`, checar o tipo de retorno HTTP (como 500, 404, etc) forneceria um erro mais detalhado do que a atual mensagem de fallback.
