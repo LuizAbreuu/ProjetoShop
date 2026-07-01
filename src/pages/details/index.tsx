@@ -18,7 +18,7 @@ export function Details() {
             try {
                 const response = await api.get(`/products/${id}`);
                 setProduct(response.data);
-            } catch (error) {
+            } catch {
                 toast.error("Erro ao carregar o produto, tente novamente!", {
                     style: {
                         borderRadius: '10px',

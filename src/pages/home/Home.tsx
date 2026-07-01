@@ -26,7 +26,7 @@ export function Home(){
                 const response = await api.get('/products')
                 setProducts(response.data)
             } 
-            catch (error) {
+            catch {
                 toast.error("Erro ao carregar os produtos, tente novamente!", {
                     style: {
                         borderRadius: '10px',

@@ -41,7 +41,7 @@ function CartProvider({ children }: CartProviderProps){
             //     total: (item.amount + 1) * item.price } 
             //     : item
             // );
-           let cartList = cart;
+           const cartList = cart;
            cartList[itemIndex].amount = cartList[itemIndex].amount + 1;
            cartList[itemIndex].total = cartList[itemIndex].amount * cartList[itemIndex].price;
            
@@ -50,7 +50,7 @@ function CartProvider({ children }: CartProviderProps){
            return;
         }
                 
-        let data = {
+        const data = {
                 ...newItem,
                 amount: 1,
                 total: newItem.price
@@ -64,7 +64,7 @@ function CartProvider({ children }: CartProviderProps){
         const indexItem = cart.findIndex(item => item.id === product.id)
 
         if(cart[indexItem]?.amount > 1){
-            let cartList = cart;
+            const cartList = cart;
             cartList[indexItem].amount = cartList[indexItem].amount - 1;
             cartList[indexItem].total = cartList[indexItem].amount * cartList[indexItem].price;
             // const cartList = cart.map((item, index) => 
@@ -82,8 +82,8 @@ function CartProvider({ children }: CartProviderProps){
     }
 
     function totalResultCart(items: CartProps[]){
-        let myCart = items;
-        let result = myCart.reduce((acc, obj) => { return acc + obj.total}, 0)
+        const myCart = items;
+        const result = myCart.reduce((acc, obj) => { return acc + obj.total}, 0)
         const format = result.toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL'
