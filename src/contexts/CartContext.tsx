@@ -24,7 +24,7 @@ interface CartProviderProps{
     children: ReactNode;
 }
 
-export const CartContext = createContext({} as CartContextData)
+const CartContext = createContext({} as CartContextData)
 
 function CartProvider({ children }: CartProviderProps){
 
@@ -100,5 +100,6 @@ function CartProvider({ children }: CartProviderProps){
     )
 }
 
+export { CartContext }
 export default CartProvider;
 

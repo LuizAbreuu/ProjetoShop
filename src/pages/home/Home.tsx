@@ -14,7 +14,7 @@ export interface ProductProps {
     cover: string;
 }
 
-export function Home(){
+function Home(){
     const { addItemCart } = useContext(CartContext)
     const [products, setProducts] = useState<ProductProps[]>([])
     const [loading, setLoading] = useState(true)
@@ -93,3 +93,5 @@ export function Home(){
         </div>
     )
 }
+
+export { Home }
