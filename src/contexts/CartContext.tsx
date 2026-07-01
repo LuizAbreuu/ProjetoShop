@@ -41,10 +41,7 @@ function CartProvider({ children }: CartProviderProps){
                  total: (item.amount + 1) * item.price } 
                  : item
              );
-           //const cartList = cart;
-           //artList[itemIndex].amount = cartList[itemIndex].amount + 1;
-          //cartList[itemIndex].total = cartList[itemIndex].amount * cartList[itemIndex].price;
-           
+
            setCart(cartList)
            totalResultCart(cartList)
            return;
@@ -64,9 +61,7 @@ function CartProvider({ children }: CartProviderProps){
         const indexItem = cart.findIndex(item => item.id === product.id)
 
         if(cart[indexItem]?.amount > 1){
-            //const cartList = cart;
-            //cartList[indexItem].amount = cartList[indexItem].amount - 1;
-            //cartList[indexItem].total = cartList[indexItem].amount * cartList[indexItem].price;
+            
              const cartList = cart.map((item, index) => 
                  index === indexItem ? 
              { ...item, amount: item.amount - 1, total: (item.amount - 1) * item.price } : item
